@@ -10,9 +10,10 @@
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item :value="bodyTab" class="full-height green">
-        <v-textarea solo no-resize height="calc(100vh - 7.626rem)" placeholder="Response body..."
+        <v-textarea solo no-resize height="calc(100vh - 11rem)" placeholder="Response body..."
                     append-icon="mdi-content-copy" @click:append="copy" v-model="responseBody">
         </v-textarea>
+        <v-snackbar v-model="snackbar" timeout="2000" rounded light>{{snackbarText}}</v-snackbar>
       </v-tab-item>
       <v-tab-item :value="headersTab" class="full-height">
         <v-simple-table>
@@ -44,6 +45,8 @@ export default {
       headersTab: 'tab-3',
       cookieTab: 'tab-4',
       responseBody: '',
+      snackbar: false,
+      snackbarText: 'Copied to clipboard !!',
       headerTableTitles: [
         { text : 'Header Key'},
         { text : 'Header Value'},
@@ -60,6 +63,7 @@ export default {
   methods: {
     copy() {
       console.log(this.responseBody)
+      this.snackbar = true
     }
   }
 }
@@ -67,6 +71,6 @@ export default {
 
 <style scoped>
 .full-height {
-  height: calc(100vh - 7.625rem);
+  height: calc(100vh - 11rem);
 }
 </style>

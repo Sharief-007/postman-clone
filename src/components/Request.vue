@@ -6,13 +6,13 @@
       <v-tab href="#tab-2">HEADERS</v-tab>
       <v-tab href="#tab-3">PARAMS</v-tab>
       <v-spacer></v-spacer>
-      <div style="max-width: 100px">
+      <div style="max-width: 150px">
         <v-select :items="bodyType" solo dense flat class="mt-1"></v-select>
       </div>
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item :value="bodyTab" class="full-height">
-        <v-textarea solo no-resize height="calc(100vh - 7.626rem)" placeholder="Enter request body here..."></v-textarea>
+        <v-textarea solo no-resize height="calc(100vh - 11rem)" placeholder="Enter request body here..."></v-textarea>
       </v-tab-item>
       <v-tab-item :value="headersTab" class="full-height">
         <v-data-table :headers="headerTableTitles" :items="headerTableValues" hide-default-footer>
@@ -72,6 +72,6 @@ export default {
 
 <style scoped>
 .full-height {
-  height: calc(100vh - 7.625rem);
+  height: calc(100vh - 11rem);
 }
 </style>

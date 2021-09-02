@@ -1,19 +1,5 @@
 <template>
   <v-app>
-    <v-app-bar flat app>
-      <v-row>
-        <v-col cols="12" sm="2">
-          <v-select :items="httpMethods" placeholder="Method" dense solo flat class="mt-6">
-          </v-select>
-        </v-col>
-        <v-col cols="12" sm="9" >
-          <v-text-field placeholder="Paste your URL here..." solo flat dense class="mt-6"></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="1">
-          <v-btn class="mt-6" depressed color="primary">send</v-btn>
-        </v-col>
-      </v-row>
-    </v-app-bar>
     <v-navigation-drawer app permanent mini-variant color="primary">
       <v-list>
         <v-list-item>
@@ -39,35 +25,46 @@
       </v-list>
     </v-navigation-drawer>
     <v-main>
-<!--      <v-progress-linear indeterminate></v-progress-linear>-->
-      <v-row>
-        <v-col cols="12" lg="6">
-          <Request/>
-        </v-col>
-        <v-divider vertical></v-divider>
-        <v-col cols="12" lg="6">
-          <Response/>
-        </v-col>
-      </v-row>
+      <v-tabs v-model="tab" center-active show-arrows>
+        <v-tab v-for="(item,index) in tabs" :key="index">Tab{{ item }}</v-tab>
+        <v-spacer></v-spacer>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on"><v-icon>mdi-plus</v-icon></v-btn>
+          </template>
+          <span>create new tab</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on"><v-icon>mdi-close</v-icon></v-btn>
+          </template>
+          <span>close tab</span>
+        </v-tooltip>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="item in tabs" :key="item">
+          <TabTemplate/>
+        </v-tab-item>
+      </v-tabs-items>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Request from "./components/Request";
-import Response from "./components/Response";
+import TabTemplate from "./components/TabTemplate";
 export default {
   name: 'App',
   components: {
-    Request,
-    Response
+   TabTemplate
   },
   data: () => ({
+    tab: null,
+    tabs: 5,
     drawerItems :[
-      { icon : "mdi-web", title: "collections"},
-      { icon : "mdi-file", title: "websocket"}
-    ],
-    httpMethods: ["GET","POST","PUT","DELETE","PATCH","HEAD"]
+      { icon : "mdi-web", title: "Rest APIs"},
+      { icon : "mdi-connection", title: "Websocket APIs"},
+      { icon : "mdi-xml", title: "XSLT Processing"}
+    ]
   }),
 };
 </script>
