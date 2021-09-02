@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-tabs v-model="tab">
-      <v-tab-slider color="primary"></v-tab-slider>
+    <v-tabs v-model="tab" slider-color="primary">
       <v-tab href="#tab-1">BODY</v-tab>
       <v-tab href="#tab-2">HEADERS</v-tab>
       <v-tab href="#tab-3">PARAMS</v-tab>
@@ -12,7 +11,7 @@
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item :value="bodyTab" class="full-height">
-        <v-textarea solo no-resize height="calc(100vh - 11rem)" placeholder="Enter request body here..."></v-textarea>
+        <v-textarea solo no-resize height="calc(100vh - 13rem)" placeholder="Enter request body here..." v-model="requestBody" id="editor"></v-textarea>
       </v-tab-item>
       <v-tab-item :value="headersTab" class="full-height">
         <v-data-table :headers="headerTableTitles" :items="headerTableValues" hide-default-footer>
@@ -37,6 +36,10 @@
 </template>
 
 <script>
+import * as CodeMirror from 'codemirror'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/mode/javascript/javascript.js'
+
 export default {
   name: "Request",
   data () {
@@ -46,6 +49,8 @@ export default {
       headersTab: 'tab-2',
       paramsTab: 'tab-3',
       text : 'lorem ipsum',
+      requestBody: '',
+      editor: null,
       bodyType: ['None','Raw','UrlEncoded','Form-Data','Binary'],
       headerTableTitles: [
         { text : 'Header Key', align : 'start', sortable: false, value: 'key'},
@@ -66,12 +71,18 @@ export default {
       let index = this.headerTableValues.indexOf(headerLine)
       this.headerTableValues.splice(index,1)
     }
+  },
+  mounted() {
+    console.log(document.querySelector("#editor"));
+    CodeMirror(document.querySelector("#editor"), {
+      lineNumbers : true
+    })
   }
 }
 </script>
 
 <style scoped>
 .full-height {
-  height: calc(100vh - 11rem);
+  height: calc(100vh - 13rem);
 }
 </style>
